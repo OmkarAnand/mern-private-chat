@@ -16,13 +16,21 @@ const app = express();
 const server = http.createServer(app);
 
 // CORS - allow deployed frontend or local fallback
-const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
+const allowedOrigins = [
+  'https://mern-private-chat-frontend.vercel.app',
+  'https://mern-private-chat-frontend-l6d9456hb-omkar-anands-projects.vercel.app'
+];
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'https://mern-private-chat-frontend.vercel.app',
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
-
 app.use(express.json());
 
 // simple health route
