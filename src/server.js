@@ -18,9 +18,8 @@ const server = http.createServer(app);
 // CORS - allow deployed frontend or local fallback
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
 app.use(cors({
-  origin: Array.isArray(process.env.CLIENT_URL?.split?.(','))
-            ? process.env.CLIENT_URL.split(',')
-            : CLIENT_URL,
+  origin: process.env.CLIENT_URL || 'https://mern-private-chat-frontend.vercel.app',
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
 
