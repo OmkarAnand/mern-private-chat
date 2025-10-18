@@ -7,8 +7,12 @@ const createRoomId = require('../utils/roomId');
 
 // get all users (for contact list) except self
 router.get('/', auth, async (req, res) => {
-  const users = await User.find({ _id: { $ne: req.user.id } }).select('_id name email');
-  res.json(users);
+   try {
+    const users = await User.find({}, "_id name"); // only _id and name
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 // get chat history between logged user and other user
