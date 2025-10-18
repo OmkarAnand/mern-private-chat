@@ -15,8 +15,8 @@ const app = express();
 const server = http.createServer(app);
 
 const allowedOrigins = [
-  process.env.CLIENT_URL || 'https://mern-private-chat-frontend.vercel.app',
-  'http://localhost:3000'
+  'https://mern-private-chat-frontend.vercel.app',
+  'https://mern-private-chat-frontend-l6d9456hb-omkar-anands-projects.vercel.app'
 ];
 
 app.use(cors({
