@@ -16,7 +16,8 @@ const server = http.createServer(app);
 
 const allowedOrigins = [
   'https://mern-private-chat-frontend.vercel.app',
-  'https://mern-private-chat-frontend-l6d9456hb-omkar-anands-projects.vercel.app'
+  'https://mern-private-chat-frontend-l6d9456hb-omkar-anands-projects.vercel.app',
+  process.env.CLIENT_URL
 ];
 
 app.use(cors({
@@ -28,6 +29,13 @@ app.use(cors({
   methods: ["GET","POST","PUT","DELETE"],
   credentials: true
 }));
+const io = new Server(server, {
+  cors: {
+    origin: allowedOrigins,
+    methods: ["GET","POST"],
+    credentials:true
+  }
+});
 app.use(express.json());
 
 // REST routes
@@ -41,13 +49,6 @@ mongoose.connect(process.env.MONGODB_URI, {
 }).then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-const io = new Server(server, {
-  cors: {
-    origin: allowedOrigins,
-    methods: ["GET","POST"],
-    credentials:true
-  }
-});
 
 let onlineUsers = new Map();
 
